@@ -1,2 +1,2 @@
 # JaWordle
- a wordle clone build in react
+ A wordle clone build with Javascript, React, HTML/CSS byt Jarred J
