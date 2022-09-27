@@ -1,12 +1,12 @@
 import React from "react";
 
-export default function Key(){
-    const key = 'A'
+export default function Key(props){
+
+    const keyStyle = "p-4 border rounded-lg bg-slate-300 active:bg-slate-500 font-semibold"
 
     return (
         <div>
-            <h1>Keyboard</h1>
-            <button>{key}</button>
+            <button className={keyStyle}>{props.obj.value}</button>
         </div>
     )
 }
