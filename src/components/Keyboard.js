@@ -1,5 +1,4 @@
 import React from "react";
-import { keys } from "../WordData";
 import Key from "./Key";
 
 export default function Keyboard(props){
@@ -8,8 +7,7 @@ export default function Keyboard(props){
         <Key key={key.id} obj={key}/>
     )
 
-
-    function getKeyElementsRow( row)
+    function getKeyElementsRow(row)
     {
         if(row === 1){
             return keyElements.slice(0,9)
@@ -20,10 +18,6 @@ export default function Keyboard(props){
         }
 
     }
-
-
-    console.log(keyElements)
-    console.log(getKeyElementsRow(1))
 
     return (
         <div className="flex flex-col">
