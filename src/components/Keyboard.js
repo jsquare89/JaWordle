@@ -1,4 +1,5 @@
 import React from "react";
+import { keys } from "../WordData";
 import Key from "./Key";
 
 export default function Keyboard(props){
@@ -7,11 +8,34 @@ export default function Keyboard(props){
         <Key key={key.id} obj={key}/>
     )
 
+
+    function getKeyElementsRow( row)
+    {
+        if(row === 1){
+            return keyElements.slice(0,9)
+        }else if(row === 2){
+            return keyElements.slice(9,18)
+        }else{
+            return keyElements.slice(18,28)
+        }
+
+    }
+
+
     console.log(keyElements)
+    console.log(getKeyElementsRow(1))
 
     return (
-        <div className="flex">
-            {keyElements}
+        <div className="flex flex-col">
+            <div className="flex flex-row justify-center">
+                {getKeyElementsRow(1)}
+            </div>
+            <dv className="flex flex-row justify-center">
+                {getKeyElementsRow(2)}
+            </dv>
+            <div className="flex flex-row justify-center">
+                {getKeyElementsRow(3)}
+            </div>
         </div>
     )
 }
