@@ -15,6 +15,10 @@ export const keys = [{
     isPressed: false
   },{
     id: nanoid(),
+    value: "R",
+    isPressed: false
+  },{
+    id: nanoid(),
     value: "T",
     isPressed: false
   },{
