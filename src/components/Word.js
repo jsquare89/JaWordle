@@ -4,7 +4,7 @@ import Cell from "./Cell";
 export default function Word(){
 
     return (
-        <div className='flex inline-flex space-x-1 font-bold text-2xl'>
+        <div className='flex flex-row space-x-1'>
             <Cell value="A"/>
             <Cell value="U"/>
             <Cell value="D"/>

@@ -20,13 +20,13 @@ export default function Keyboard(props){
     }
 
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col mx-1">
             <div className="flex flex-row justify-center">
                 {getKeyElementsRow(1)}
             </div>
-            <dv className="flex flex-row justify-center">
+            <div className="flex flex-row justify-center">
                 {getKeyElementsRow(2)}
-            </dv>
+            </div>
             <div className="flex flex-row justify-center">
                 {getKeyElementsRow(3)}
             </div>
