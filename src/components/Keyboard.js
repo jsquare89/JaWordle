@@ -10,26 +10,25 @@ export default function Keyboard(props){
     function getKeyElementsRow(row)
     {
         if(row === 1){
-            return keyElements.slice(0,9)
+            return keyElements.slice(0,10)
         }else if(row === 2){
-            return keyElements.slice(10,18)
+            return keyElements.slice(10,19)
         }else{
             return keyElements.slice(19,28)
         }
-
     }
 
     return (
         <div className="flex flex-col mx-2 align-middle my-auto">
             <div className="flex flex-row justify-center my-0.5">
-                <div className="w-3 mr-0.5"></div>
+                <div className=""></div>
                 {getKeyElementsRow(1)}
-                <div className="w-3 ml-0.5"></div>
+                <div className=""></div>
             </div>
             <div className="flex flex-row justify-center my-0.5">
-                <div className="w-9"></div>
+                <div className="w-5 mr-0.5"></div>
                 {getKeyElementsRow(2)}
-                <div className="w-9"></div>
+                <div className="w-5 ml-0.5"></div>
             </div>
             <div className="flex flex-row justify-center my-0.5">
                 {getKeyElementsRow(3)}

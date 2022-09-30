@@ -71,7 +71,7 @@ export const keys = [{
     isPressed: false
   },{
     id: nanoid(),
-    value: "J",
+    value: "K",
     isPressed: false
   },{
     id: nanoid(),
