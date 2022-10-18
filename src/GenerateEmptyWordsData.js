@@ -1,16 +1,15 @@
-import { nanoid } from 'nanoid';
+import { nanoid } from "nanoid";
 
-export function generateEmptyWordsData(){
-    let emptyWordsData = []
-    for(let i=0; i<6; i++){
-      emptyWordsData.push({
-        id: nanoid(),
-        value: []
-      })
-    }
-    console.log (emptyWordsData)
-    return emptyWordsData;
+export function generateEmptyWordsData() {
+  let emptyWordsData = [];
+  for (let i = 0; i < 6; i++) {
+    emptyWordsData.push({
+      id: nanoid(),
+      value: [],
+    });
   }
+  return emptyWordsData;
+}
 // export function generateEmptyWordsData(){
 //     let emptyWordsData = []
 //     for(let i=0; i<6; i++){
