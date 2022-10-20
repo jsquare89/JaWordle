@@ -6,7 +6,6 @@ import Cell from "./Cell";
 export default function Word({ wordIndex }) {
   const { words } = useContext(WordsContext);
 
-  console.log("Word.js words: ", words);
   let cellElements = [];
   for (let i = 0; i < 5; i++) {
     if (words[wordIndex].value[i] == null) {

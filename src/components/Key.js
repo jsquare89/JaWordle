@@ -13,7 +13,7 @@ export default function Key(props) {
     keyStyle += " w-10";
   }
 
-  const { words, setWords } = useContext(WordsContext);
+  const { words, setWords, dailyWord, wordList } = useContext(WordsContext);
   const currentWordIndex = 0;
 
   function handleKey(key) {
@@ -32,27 +32,14 @@ export default function Key(props) {
 
     //      else display not enough letters
     //      return
-    // if key is delete
-    //      if temp word > 0
-    //         pop/remove last word off array
-    //      return
-    //
-    // if there is space in the word (<5 letters)
-    //      update temp word, push letter to array
-    //
-
-    // if(words[currentWordIndex].value.length < 5){
-    //     setWords(prevWords => prevWords.map( () => {
-    //         return {
-    //             ...prevWords,
-    //             ...prevWords[currentWordIndex] }
-    //         }
-    //     }))
-    // }
 
     if (key === "ENTER") {
       if (words[currentWordIndex].value.length === 5) {
-        completeWord();
+        completeWord(
+          words[currentWordIndex].value.join("").toLowerCase(),
+          dailyWord,
+          wordList
+        );
       } else {
         console.log("incomplete word, handle shake animation, notify user");
       }
@@ -61,7 +48,7 @@ export default function Key(props) {
     } else {
       addKeyToWord(currentWordIndex, key, words, setWords);
     }
-    console.log("words", words);
+    console.log("key.js - words:", words);
   }
 
   return (
@@ -71,8 +58,24 @@ export default function Key(props) {
   );
 }
 
-function completeWord() {
-  console.log("Complete Word TODO");
+function completeWord(word, dailyWord, wordList) {
+  console.log("Complete Word TODO ");
+
+  if (word === dailyWord) {
+    console.log(
+      "Words Match! End of wordle for the day! Show stats, share screen"
+    );
+    // TODO: update letter colors, move onto next row
+    return;
+  }
+  // Check the word against list, if in list mark word complete, increment word index and move onto next row.
+  if (wordList.some((w) => w === word)) {
+    console.log("word exists: " + word);
+    // TODO: update letter colors, move onto next row
+    return;
+  }
+  // TODO: notify user that is not a word
+  console.log("That is not a word!");
 }
 
 function removeKeyFromWord(currentWordIndex, setWords) {
@@ -80,7 +83,6 @@ function removeKeyFromWord(currentWordIndex, setWords) {
     prevWords.map((word, index) => {
       if (currentWordIndex === index) {
         word.value.pop();
-        console.log("new word: ", word);
         return word;
       } else {
         return word;
