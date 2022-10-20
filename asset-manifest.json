@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/JaWordle/static/css/main.68f710c4.css",
+    "main.js": "/JaWordle/static/js/main.ab336627.js",
+    "static/js/787.7dece9a4.chunk.js": "/JaWordle/static/js/787.7dece9a4.chunk.js",
+    "index.html": "/JaWordle/index.html",
+    "main.68f710c4.css.map": "/JaWordle/static/css/main.68f710c4.css.map",
+    "main.ab336627.js.map": "/JaWordle/static/js/main.ab336627.js.map",
+    "787.7dece9a4.chunk.js.map": "/JaWordle/static/js/787.7dece9a4.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.68f710c4.css",
+    "static/js/main.ab336627.js"
+  ]
+}
