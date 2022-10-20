@@ -6,6 +6,7 @@ export function generateEmptyWordsData() {
     emptyWordsData.push({
       id: nanoid(),
       value: [],
+      state: "", // state correct(green), inword(yellow), wrong(gray)
     });
   }
   return emptyWordsData;

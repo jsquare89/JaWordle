@@ -23,21 +23,6 @@ export default function Key(props) {
   } = useContext(WordsContext);
 
   function handleKey(key) {
-    // if(value === 'ENTER'){
-    //     setWords(prevWords => prevWords.map(word => {
-    //         return {
-    //             ...word,
-    //         }
-    //     }))
-    // }
-    // if key is enter
-    //      if temp word has 5 letters
-    //          if temp word is in word list
-    //              update word letters state
-    //              if temp word == daily word, update word state
-
-    //      else display not enough letters
-    //      return
     if (currentWordIndex <= 5) {
       if (key === "ENTER") {
         if (words[currentWordIndex].value.length === 5) {
