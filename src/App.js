@@ -11,7 +11,7 @@ function App() {
   const [wordList, setWordList] = useState([]);
   const [dailyWord, setDailyWord] = useState("audio");
   const [words, setWords] = useState(generateEmptyWordsData()); // array of 6 words. word: {id: nonoid(), value: {{letter: "A", state: "correct | exists | nonexist | unfinished"},{...},{...},{...},{...}},}
-  //const [currentWord, setCurrentWord] = useState(0);
+  const [currentWordIndex, setCurrentWordIndex] = useState(0);
 
   useEffect(() => {
     fetch("/words.json")
@@ -23,7 +23,16 @@ function App() {
     <div className="flex flex-col pt-6 mx-auto">
       <h1 className="text-3xl font-bold self-center">JaWordle</h1>
       <div className="flex flex-col space-evenly">
-        <WordsContext.Provider value={{ words, setWords, wordList, dailyWord }}>
+        <WordsContext.Provider
+          value={{
+            words,
+            setWords,
+            wordList,
+            dailyWord,
+            currentWordIndex,
+            setCurrentWordIndex,
+          }}
+        >
           <WordGrid />
           <Keyboard keys={keys} />
         </WordsContext.Provider>

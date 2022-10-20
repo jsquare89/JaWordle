@@ -13,8 +13,14 @@ export default function Key(props) {
     keyStyle += " w-10";
   }
 
-  const { words, setWords, dailyWord, wordList } = useContext(WordsContext);
-  const currentWordIndex = 0;
+  const {
+    words,
+    setWords,
+    dailyWord,
+    wordList,
+    currentWordIndex,
+    setCurrentWordIndex,
+  } = useContext(WordsContext);
 
   function handleKey(key) {
     // if(value === 'ENTER'){
@@ -32,23 +38,25 @@ export default function Key(props) {
 
     //      else display not enough letters
     //      return
-
-    if (key === "ENTER") {
-      if (words[currentWordIndex].value.length === 5) {
-        completeWord(
-          words[currentWordIndex].value.join("").toLowerCase(),
-          dailyWord,
-          wordList
-        );
-      } else {
-        console.log("incomplete word, handle shake animation, notify user");
+    if (currentWordIndex <= 5) {
+      if (key === "ENTER") {
+        if (words[currentWordIndex].value.length === 5) {
+          completeWord(
+            words[currentWordIndex].value.join("").toLowerCase(),
+            dailyWord,
+            wordList,
+            setCurrentWordIndex
+          );
+        } else {
+          console.log("incomplete word, handle shake animation, notify user");
+        }
+      } else if (key === "DELETE") {
+        removeKeyFromWord(currentWordIndex, setWords);
+      } else if (words[currentWordIndex].value.length < 5) {
+        addKeyToWord(currentWordIndex, key, words, setWords);
+        console.log("key.js - words:", words);
       }
-    } else if (key === "DELETE") {
-      removeKeyFromWord(currentWordIndex, setWords);
-    } else {
-      addKeyToWord(currentWordIndex, key, words, setWords);
     }
-    console.log("key.js - words:", words);
   }
 
   return (
@@ -58,23 +66,28 @@ export default function Key(props) {
   );
 }
 
-function completeWord(word, dailyWord, wordList) {
+function completeWord(word, dailyWord, wordList, setCurrentWordIndex) {
   console.log("Complete Word TODO ");
 
   if (word === dailyWord) {
+    //TODO: handleCorrectWord
     console.log(
       "Words Match! End of wordle for the day! Show stats, share screen"
     );
-    // TODO: update letter colors, move onto next row
+    // TODO: update letter colors,
+
+    // TODO: show win endgame
     return;
   }
-  // Check the word against list, if in list mark word complete, increment word index and move onto next row.
+  // Check the word against list, if in list mark word complete, increment word index and move onto next row. -handleIncorrectWord
   if (wordList.some((w) => w === word)) {
     console.log("word exists: " + word);
-    // TODO: update letter colors, move onto next row
+    // TODO: update letter colors
+
+    setCurrentWordIndex((prevIndex) => prevIndex + 1);
     return;
   }
-  // TODO: notify user that is not a word
+  // TODO: notify user that is not a word - handleNotAWord
   console.log("That is not a word!");
 }
 
