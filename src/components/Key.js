@@ -21,7 +21,7 @@ export default function Key(props) {
     wordList,
     currentWordIndex,
     setCurrentWordIndex,
-    setShowNotification,
+    addMessage,
   } = useContext(WordsContext);
 
   function handleKey(key) {
@@ -33,16 +33,16 @@ export default function Key(props) {
             dailyWord,
             wordList,
             setCurrentWordIndex,
-            setShowNotification
+            addMessage
           );
         } else {
+          addMessage("incomplete word.");
           console.log("incomplete word, handle shake animation, notify user");
         }
       } else if (key === "DELETE") {
         removeKeyFromWord(currentWordIndex, setWords);
       } else if (words[currentWordIndex].value.length < 5) {
         addKeyToWord(currentWordIndex, key, words, setWords);
-        console.log("key.js - words:", words);
       }
     }
   }
@@ -59,15 +59,11 @@ function completeWord(
   dailyWord,
   wordList,
   setCurrentWordIndex,
-  setShowNotification
+  addMessage
 ) {
-  console.log("Complete Word TODO ");
-
   if (word === dailyWord) {
     //TODO: handleCorrectWord
-    console.log(
-      "Words Match! End of wordle for the day! Show stats, share screen"
-    );
+    addMessage("hurray! handle endgame!");
     // TODO: update letter colors,
 
     // TODO: show win endgame
@@ -75,18 +71,13 @@ function completeWord(
   }
   // Check the word against list, if in list mark word complete, increment word index and move onto next row. -handleIncorrectWord
   if (wordList.some((w) => w === word)) {
-    console.log("word exists: " + word);
     // TODO: update letter colors
 
     setCurrentWordIndex((prevIndex) => prevIndex + 1);
     return;
   }
   // TODO: notify user that is not a word - handleNotAWord
-  console.log("That is not a word!");
-  setShowNotification({
-    id: nanoid(),
-    message: "Not a word",
-  });
+  addMessage("That is not a word. Try again");
   console.log(wordList);
 }
 
