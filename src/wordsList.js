@@ -1,4 +1,4 @@
-[
+export const wordsList = [
   "audio",
   "media",
   "alert",
@@ -8,5 +8,5 @@
   "empty",
   "shift",
   "quest",
-  "unite"
-]
+  "unite",
+];

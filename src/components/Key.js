@@ -1,3 +1,4 @@
+import { nanoid } from "nanoid";
 import React, { useContext } from "react";
 import { WordsContext } from "../App";
 
@@ -20,6 +21,7 @@ export default function Key(props) {
     wordList,
     currentWordIndex,
     setCurrentWordIndex,
+    setShowNotification,
   } = useContext(WordsContext);
 
   function handleKey(key) {
@@ -30,7 +32,8 @@ export default function Key(props) {
             words[currentWordIndex].value.join("").toLowerCase(),
             dailyWord,
             wordList,
-            setCurrentWordIndex
+            setCurrentWordIndex,
+            setShowNotification
           );
         } else {
           console.log("incomplete word, handle shake animation, notify user");
@@ -51,7 +54,13 @@ export default function Key(props) {
   );
 }
 
-function completeWord(word, dailyWord, wordList, setCurrentWordIndex) {
+function completeWord(
+  word,
+  dailyWord,
+  wordList,
+  setCurrentWordIndex,
+  setShowNotification
+) {
   console.log("Complete Word TODO ");
 
   if (word === dailyWord) {
@@ -74,6 +83,11 @@ function completeWord(word, dailyWord, wordList, setCurrentWordIndex) {
   }
   // TODO: notify user that is not a word - handleNotAWord
   console.log("That is not a word!");
+  setShowNotification({
+    id: nanoid(),
+    message: "Not a word",
+  });
+  console.log(wordList);
 }
 
 function removeKeyFromWord(currentWordIndex, setWords) {
