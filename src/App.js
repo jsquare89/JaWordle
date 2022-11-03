@@ -5,9 +5,29 @@ import WordGrid from "./components/WordGrid";
 import { keys } from "./WordData.js";
 import { generateEmptyWordsData } from "./GenerateEmptyWordsData";
 import { wordsList } from "./wordsList";
-import MessageQueue, { useMessageQueue } from "./MessageQueue";
+import MessageQueue, { useMessageQueue } from "./components/MessageQueue";
+import create from "zustand";
 
 export const WordsContext = React.createContext();
+
+export const useJaWordleStore = create((set) => ({
+  wordsList: wordsList,
+  dailyWord: "audio",
+  words: generateEmptyWordsData(),
+  currentWordIndex: 0,
+
+  addKeyToCurrentWord: (key) =>
+    set((state) => ({
+      words: state.words.map((word, index) => {
+        if (state.currentWordIndex === index) {
+          word.value.push(key);
+          return word;
+        } else {
+          return word;
+        }
+      }),
+    })),
+}));
 
 function App() {
   const [wordList] = useState(wordsList);
