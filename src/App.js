@@ -8,6 +8,12 @@ import { wordsList } from "./wordsList";
 import MessageQueue, { useMessageQueue } from "./components/MessageQueue";
 import create from "zustand";
 
+const LetterState = {
+  Correct: "correct",
+  InWord: "inword",
+  Neutral: "neutral",
+};
+
 export const messageQueueContext = React.createContext();
 export const useJaWordleStore = create((set) => ({
   wordsList: wordsList,
@@ -19,7 +25,7 @@ export const useJaWordleStore = create((set) => ({
     set((state) => ({
       words: state.words.map((word, index) => {
         if (state.currentWordIndex === index) {
-          word.value.push(key);
+          word.value.push({ key: key, state: LetterState.Neutral });
           return word;
         } else {
           return word;
