@@ -1,8 +1,12 @@
 import React, { useContext } from "react";
-import { WordsContext, useJaWordleStore } from "../App";
+import { messageQueueContext, useJaWordleStore } from "../App";
 
+const MAX_WORD_LENGTH = 5;
 export default function Key(props) {
   const store = useJaWordleStore();
+  const { addMessage } = useContext(messageQueueContext);
+  const currentWordLength = store.words[store.currentWordIndex].value.length;
+
   let value = props.obj.value;
   let keyStyle =
     "mx-0.5 py-4 rounded bg-slate-300 active:bg-slate-500 font-semibold text-sm select-none";
@@ -14,38 +18,31 @@ export default function Key(props) {
     keyStyle += " w-10";
   }
 
-  const {
-    words,
-    setWords,
-    dailyWord,
-    wordList,
-    currentWordIndex,
-    setCurrentWordIndex,
-    addMessage,
-  } = useContext(WordsContext);
-
   function handleKey(key) {
-    if (store.currentWordIndex <= 5) {
-      if (key === "ENTER") {
-        if (words[currentWordIndex].value.length === 5) {
-          completeWord(
-            words[currentWordIndex].value.join("").toLowerCase(),
-            dailyWord,
-            wordList,
-            setCurrentWordIndex,
-            addMessage
-          );
-        } else {
-          addMessage("incomplete word.");
-          console.log("incomplete word, handle shake animation, notify user");
-        }
-      } else if (key === "DELETE") {
-        removeKeyFromWord(currentWordIndex, setWords);
-      } else if (store.words[store.currentWordIndex].value.length < 5) {
-        // addKeyToWord(store.currentWordIndex, key, store.words, setWords);
-        //addKeyToWordStore(store, key);
-        store.addKeyToCurrentWord(key);
-      }
+    console.log(store);
+    if (store.currentWordIndex <= MAX_WORD_LENGTH) {
+      handleSpecificKeyPress(key);
+    }
+  }
+
+  function handleSpecificKeyPress(key) {
+    if (key === "ENTER") {
+      handleEnterKeyPress();
+    } else if (key === "DELETE") {
+      store.removeKeyFromWord();
+    } else if (currentWordLength < MAX_WORD_LENGTH) {
+      store.addKeyToCurrentWord(key);
+    }
+  }
+
+  function handleEnterKeyPress() {
+    const currentWord = store.words[store.currentWordIndex].value
+      .join("")
+      .toLowerCase();
+    if (currentWordLength === MAX_WORD_LENGTH) {
+      completeWord(store, currentWord, addMessage);
+    } else {
+      addMessage("incomplete word.");
     }
   }
 
@@ -56,79 +53,23 @@ export default function Key(props) {
   );
 }
 
-function completeWord(
-  word,
-  dailyWord,
-  wordList,
-  setWords,
-  setCurrentWordIndex,
-  addMessage
-) {
-  if (word === dailyWord) {
+function completeWord(store, word, addMessage) {
+  if (word === store.dailyWord) {
     //TODO: handleCorrectWord
     // TODO: update letter colors,
-    updateWordStatesForCells();
+    store.updateWordStateForCells();
     addMessage("hurray! handle endgame!");
     // TODO: show win endgame
     return;
   }
   // Check the word against list, if in list mark word complete, increment word index and move onto next row. -handleIncorrectWord
-  if (wordList.some((w) => w === word)) {
+  if (store.wordsList.some((w) => w === word)) {
     // TODO: update letter colors
-    updateWordStatesForCells();
-    setCurrentWordIndex((prevIndex) => prevIndex + 1);
+    store.updateWordStateForCells();
+    store.currentWordIndex = store.currentWordIndex + 1;
     return;
   }
   // TODO: notify user that is not a word - handleNotAWord
   addMessage("That is not a word. Try again");
-  console.log(wordList);
-}
-
-function updateWordStatesForCells(word, setWords) {
-  setWords((prevWords) =>
-    prevWords.map((w) => {
-      if (w === word) return {};
-    })
-  );
-}
-
-function removeKeyFromWord(currentWordIndex, setWords) {
-  setWords((prevWords) =>
-    prevWords.map((word, index) => {
-      if (currentWordIndex === index) {
-        word.value.pop();
-        return word;
-      } else {
-        return word;
-      }
-    })
-  );
-}
-
-function addKeyToWord(currentWordIndex, key, words, setWords) {
-  if (words[currentWordIndex].value.length < 5) {
-    setWords((prevWords) =>
-      prevWords.map((word, index) => {
-        if (currentWordIndex === index) {
-          word.value.push(key);
-          return word;
-        } else {
-          return word;
-        }
-      })
-    );
-  }
-}
-
-function addKeyToWordStore(store, key) {
-  if (store.words[store.currentWordIndex].value.length < 5) {
-    store.words = store.words.map((word, index) => {
-      if (store.currentWordIndex === index) {
-        word.value.push(key);
-        return word;
-      } else {
-        return word;
-      }
-    });
-  }
+  console.log(store.wordsList);
 }

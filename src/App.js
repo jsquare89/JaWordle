@@ -8,8 +8,7 @@ import { wordsList } from "./wordsList";
 import MessageQueue, { useMessageQueue } from "./components/MessageQueue";
 import create from "zustand";
 
-export const WordsContext = React.createContext();
-
+export const messageQueueContext = React.createContext();
 export const useJaWordleStore = create((set) => ({
   wordsList: wordsList,
   dailyWord: "audio",
@@ -27,13 +26,25 @@ export const useJaWordleStore = create((set) => ({
         }
       }),
     })),
+  removeKeyFromWord: () =>
+    set((state) => ({
+      words: state.words.map((word, index) => {
+        if (state.currentWordIndex === index) {
+          word.value.pop();
+          return word;
+        } else {
+          return word;
+        }
+      }),
+    })),
+  updateWordStateForCells: () =>
+    set((state) => ({
+      words: () => {},
+    })),
 }));
 
 function App() {
-  const [wordList] = useState(wordsList);
-  const [dailyWord] = useState("audio");
-  const [words, setWords] = useState(generateEmptyWordsData()); // array of 6 words. word: {id: nonoid(), value: {{letter: "A", state: "correct | exists | nonexist | unfinished"},{...},{...},{...},{...}},}
-  const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  // array of 6 words. word: {id: nonoid(), value: {{letter: "A", state: "correct | exists | nonexist | unfinished"},{...},{...},{...},{...}},}
   const { addMessage, messages } = useMessageQueue();
 
   return (
@@ -41,20 +52,14 @@ function App() {
       <h1 className="text-3xl font-bold self-center">JaWordle</h1>
       <div className="relative flex flex-col space-evenly">
         <MessageQueue messages={messages} />
-        <WordsContext.Provider
+        <WordGrid />
+        <messageQueueContext.Provider
           value={{
-            words,
-            setWords,
-            wordList,
-            dailyWord,
-            currentWordIndex,
-            setCurrentWordIndex,
             addMessage,
           }}
         >
-          <WordGrid />
           <Keyboard keys={keys} />
-        </WordsContext.Provider>
+        </messageQueueContext.Provider>
       </div>
     </div>
   );
