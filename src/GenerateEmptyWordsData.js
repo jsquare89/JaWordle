@@ -12,13 +12,13 @@ export function generateEmptyWordsData() {
   return emptyWordsData;
 }
 
-function generateEmptyLetters() {
-  const letters = [];
-  for (let i = 0; i < 5; i++) {
-    letters.push({ key: "", state: "neutral" });
-  }
-  return letters;
-}
+// function generateEmptyLetters() {
+//   const letters = [];
+//   for (let i = 0; i < 5; i++) {
+//     letters.push({ key: "", state: "neutral" });
+//   }
+//   return letters;
+// }
 // export function generateEmptyWordsData(){
 //     let emptyWordsData = []
 //     for(let i=0; i<6; i++){

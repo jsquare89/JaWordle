@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import { messageQueueContext, useJaWordleStore } from "../App";
+import { MAX_WORD_LENGTH } from "../Constants";
+import { handleSpecificKeyPress } from "../HandleKeys";
 
-const MAX_WORD_LENGTH = 5;
 export default function Key(props) {
   const store = useJaWordleStore();
   const { addMessage } = useContext(messageQueueContext);
-  const currentWordLength = store.words[store.currentWordIndex].value.length;
 
   let value = props.obj.value;
   let keyStyle =
@@ -21,28 +21,7 @@ export default function Key(props) {
   function handleKey(key) {
     console.log(store);
     if (store.currentWordIndex <= MAX_WORD_LENGTH) {
-      handleSpecificKeyPress(key);
-    }
-  }
-
-  function handleSpecificKeyPress(key) {
-    if (key === "ENTER") {
-      handleEnterKeyPress();
-    } else if (key === "DELETE") {
-      store.removeKeyFromWord();
-    } else if (currentWordLength < MAX_WORD_LENGTH) {
-      store.addKeyToCurrentWord(key);
-    }
-  }
-
-  function handleEnterKeyPress() {
-    const currentWord = store.words[store.currentWordIndex].value
-      .join("")
-      .toLowerCase();
-    if (currentWordLength === MAX_WORD_LENGTH) {
-      completeWord(store, currentWord, addMessage);
-    } else {
-      addMessage("incomplete word.");
+      handleSpecificKeyPress(store, key, addMessage);
     }
   }
 
@@ -51,25 +30,4 @@ export default function Key(props) {
       {value}
     </button>
   );
-}
-
-function completeWord(store, word, addMessage) {
-  if (word === store.dailyWord) {
-    //TODO: handleCorrectWord
-    // TODO: update letter colors,
-    store.updateWordStateForCells();
-    addMessage("hurray! handle endgame!");
-    // TODO: show win endgame
-    return;
-  }
-  // Check the word against list, if in list mark word complete, increment word index and move onto next row. -handleIncorrectWord
-  if (store.wordsList.some((w) => w === word)) {
-    // TODO: update letter colors
-    store.updateWordStateForCells();
-    store.currentWordIndex = store.currentWordIndex + 1;
-    return;
-  }
-  // TODO: notify user that is not a word - handleNotAWord
-  addMessage("That is not a word. Try again");
-  console.log(store.wordsList);
 }
