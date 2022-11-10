@@ -1,14 +1,19 @@
-import { MAX_WORD_LENGTH } from "./Constants";
+import { GameState, MAX_WORD_LENGTH } from "./Constants";
 import { completeWord } from "./CompleteWord";
 
 export function handleKey(key, store, addMessage) {
-  console.log(store);
-  if (store.currentWordIndex <= MAX_WORD_LENGTH) {
+  if (
+    store.gameState === GameState.Play &&
+    store.currentWordIndex <= MAX_WORD_LENGTH
+  ) {
     handleSpecificKeyPress(store, key, addMessage);
   }
 }
 
 export const handleKeyDown = (e, store, addMessage) => {
+  if (store.gameState !== GameState.Play) {
+    return;
+  }
   if (e.key === "Enter") {
     handleSpecificKeyPress(store, "ENTER", addMessage);
   } else if (e.key === "Backspace") {
@@ -30,12 +35,8 @@ export function handleSpecificKeyPress(store, key, addMessage) {
 }
 
 export function handleEnterKeyPress(store, addMessage) {
-  const currentWordLength = store.words[store.currentWordIndex].value.length;
-  const currentWord = store.words[store.currentWordIndex].value
-    .join("")
-    .toLowerCase();
-  if (currentWordLength === MAX_WORD_LENGTH) {
-    completeWord(store, currentWord, addMessage);
+  if (store.getCurrentWordString().length === MAX_WORD_LENGTH) {
+    completeWord(store, addMessage);
   } else {
     addMessage("incomplete word.");
   }

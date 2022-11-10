@@ -1,14 +1,23 @@
-export function completeWord(store, word, addMessage) {
-  if (word === store.dailyWord) {
+import { GameState } from "./Constants";
+
+export function completeWord(store, addMessage) {
+  if (store.getCurrentWordString() === store.dailyWord) {
+    console.log(
+      "correct word: ",
+      store.getCurrentWordString(),
+      store.dailyWord
+    );
+    console.log("store.words: ", store.words);
     //TODO: handleCorrectWord
     // TODO: update letter colors,
-    store.updateWordStateForCells();
+    //store.updateWordStateForCells();
     addMessage("hurray! handle endgame!");
+    store.gameState = GameState.Win;
     // TODO: show win endgame
     return;
   }
   // Check the word against list, if in list mark word complete, increment word index and move onto next row. -handleIncorrectWord
-  if (store.wordsList.some((w) => w === word)) {
+  if (store.wordsList.some((w) => w === store.getCurrentWordString())) {
     // TODO: update letter colors
     store.updateWordStateForCells();
     store.currentWordIndex = store.currentWordIndex + 1;

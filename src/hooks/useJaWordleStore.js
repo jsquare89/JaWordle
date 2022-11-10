@@ -1,13 +1,22 @@
 import create from "zustand";
 import { wordsList } from "../wordsList";
 import { generateEmptyWordsData } from "../GenerateEmptyWordsData";
-import { LetterState } from "../Constants";
+import { LetterState, GameState } from "../Constants";
 
-export const useJaWordleStore = create((set) => ({
+export const useJaWordleStore = create((set, get) => ({
   wordsList: wordsList,
   dailyWord: "audio",
   words: generateEmptyWordsData(),
   currentWordIndex: 0,
+  gameState: GameState.Play,
+
+  getCurrentWordString: () => {
+    let currentWord = get().words[get().currentWordIndex].value.map((v) =>
+      v.key.toLowerCase()
+    );
+    currentWord = currentWord.join("");
+    return currentWord;
+  },
 
   addKeyToCurrentWord: (key) =>
     set((state) => ({
@@ -33,6 +42,15 @@ export const useJaWordleStore = create((set) => ({
     })),
   updateWordStateForCells: () =>
     set((state) => ({
-      words: () => {},
+      words: state.words.map((word, index) => {
+        if (state.currentWordIndex === index) {
+          word.value.map((v) => {
+            return v;
+          });
+          return word;
+        } else {
+          return word;
+        }
+      }),
     })),
 }));

@@ -5,3 +5,9 @@ export const LetterState = {
   InWord: "inword",
   Neutral: "neutral",
 };
+
+export const GameState = {
+  GameOver: "gameover",
+  Win: "win",
+  Play: "play",
+};
