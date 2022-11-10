@@ -3,52 +3,11 @@ import "./App.css";
 import Keyboard from "./components/Keyboard";
 import WordGrid from "./components/WordGrid";
 import { keys } from "./WordData.js";
-import { generateEmptyWordsData } from "./GenerateEmptyWordsData";
-import { wordsList } from "./wordsList";
 import MessageQueue, { useMessageQueue } from "./components/MessageQueue";
-import create from "zustand";
-import { handleSpecificKeyPress } from "./HandleKeys";
-
-const LetterState = {
-  Correct: "correct",
-  InWord: "inword",
-  Neutral: "neutral",
-};
+import { handleKeyDown } from "./HandleKeys";
+import { useJaWordleStore } from "./hooks/useJaWordleStore";
 
 export const messageQueueContext = React.createContext();
-export const useJaWordleStore = create((set) => ({
-  wordsList: wordsList,
-  dailyWord: "audio",
-  words: generateEmptyWordsData(),
-  currentWordIndex: 0,
-
-  addKeyToCurrentWord: (key) =>
-    set((state) => ({
-      words: state.words.map((word, index) => {
-        if (state.currentWordIndex === index) {
-          word.value.push({ key: key, state: LetterState.Neutral });
-          return word;
-        } else {
-          return word;
-        }
-      }),
-    })),
-  removeKeyFromWord: () =>
-    set((state) => ({
-      words: state.words.map((word, index) => {
-        if (state.currentWordIndex === index) {
-          word.value.pop();
-          return word;
-        } else {
-          return word;
-        }
-      }),
-    })),
-  updateWordStateForCells: () =>
-    set((state) => ({
-      words: () => {},
-    })),
-}));
 
 function App() {
   // array of 6 words. word: {id: nonoid(), value: {{letter: "A", state: "correct | exists | nonexist | unfinished"},{...},{...},{...},{...}},}
@@ -82,15 +41,5 @@ function App() {
     </div>
   );
 }
-
-const handleKeyDown = (e, store, addMessage) => {
-  if (e.key === "Enter") {
-    handleSpecificKeyPress(store, "ENTER", addMessage);
-  } else if (e.key === "Backspace") {
-    handleSpecificKeyPress(store, "DELETE", addMessage);
-  } else if (e.which >= 65 && e.which <= 90) {
-    handleSpecificKeyPress(store, e.key.toUpperCase(), addMessage);
-  }
-};
 
 export default App;

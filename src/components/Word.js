@@ -1,5 +1,5 @@
 import { nanoid } from "nanoid";
-import { useJaWordleStore } from "../App";
+import { useJaWordleStore } from "../hooks/useJaWordleStore";
 import Cell from "./Cell";
 
 export default function Word({ wordIndex }) {
