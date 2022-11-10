@@ -20,7 +20,6 @@ function App() {
       (e) => handleKeyDown(e, store, addMessage),
       true
     );
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
